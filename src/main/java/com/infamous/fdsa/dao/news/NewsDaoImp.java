@@ -22,13 +22,13 @@ public class NewsDaoImp implements NewsDao {
 
 		PreparedStatement pre = null;
 		try {
-			pre = (PreparedStatement) this.database.getConnection().prepareStatement(sql);
+			pre = (PreparedStatement) this.database.connection.prepareStatement(sql);
 			pre.setString(1, model.getId());
 			pre.setString(2, model.getTitle());
 			pre.setString(3, model.getContent());
 			pre.setString(4, model.getAttactLink());
 
-		} catch (SQLException | ClassNotFoundException e) {
+		} catch (SQLException e) {
 			System.out.print("FAIL to get");
 		}
 
@@ -42,11 +42,11 @@ public class NewsDaoImp implements NewsDao {
 
 		PreparedStatement pre = null;
 		try {
-			pre = (PreparedStatement) this.database.getConnection().prepareStatement(sql);
+			pre = (PreparedStatement) this.database.connection.prepareStatement(sql);
 			pre.setString(1, id);
 	
 
-		} catch (SQLException | ClassNotFoundException e) {
+		} catch (SQLException e) {
 			System.out.print("FAIL to get");
 		}
 
@@ -56,16 +56,14 @@ public class NewsDaoImp implements NewsDao {
 	@Override
 	public ResultSet getAll() throws SQLException{
 		String sql = "";
-		sql = "Select * from news";
+		sql = "select * from news";
 
 		PreparedStatement pre = null;
 		
 		try {
-			
-			
-			pre = (PreparedStatement) this.database.getConnection().prepareStatement(sql);
+			pre = (PreparedStatement) this.database.connection.prepareStatement(sql);
 	
-		} catch (SQLException | ClassNotFoundException e) {
+		} catch (SQLException e) {
 			System.out.print("FAIL to get");
 		}
 		return pre.executeQuery();

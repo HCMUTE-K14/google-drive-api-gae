@@ -16,15 +16,13 @@ public class DatabaseHelper {
 	protected String classname;
 	
 	protected static DatabaseHelper ins;
+	public Connection connection;
 	
 	private DatabaseHelper(){
 		getInfor();
 		try {
-			System.out.println("DSADSA"+getConnection());
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (SQLException e) {
+			connection=getConnection();
+		} catch (ClassNotFoundException | SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -38,9 +36,9 @@ public class DatabaseHelper {
 	}
 	
 	public Connection getConnection() throws SQLException, ClassNotFoundException{
-		Class.forName("com.mysql.jdbc.GoogleDriver");
+		Class.forName(classname);
 		return (Connection) DriverManager
-				.getConnection(url);
+				.getConnection(url,user,password);
 	}
 	
 	private void getInfor(){
@@ -56,8 +54,7 @@ public class DatabaseHelper {
 			}
 			
 			properties.load(input);
-			
-
+		
 			classname = properties.getProperty("classname");
 
 			url = properties.getProperty("url");
@@ -66,6 +63,7 @@ public class DatabaseHelper {
 
 			password = properties.getProperty("password");
 			
+			classname=properties.getProperty("classname");
 			
 			System.out.println(url+user+password);
 		} catch (IOException e) {

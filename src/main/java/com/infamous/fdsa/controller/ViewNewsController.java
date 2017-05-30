@@ -2,6 +2,7 @@ package com.infamous.fdsa.controller;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -9,8 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.infamous.fdsa.model.news.NewsModel;
-
-public class MainController extends HttpServlet{
+import com.infamous.fdsa.bean.News;
+public class ViewNewsController extends HttpServlet {
 
 	/**
 	 * 
@@ -19,15 +20,18 @@ public class MainController extends HttpServlet{
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		super.doGet(req, resp);
-		NewsModel model=new NewsModel();
+		NewsModel model = new NewsModel();
+		ArrayList<News> list=new ArrayList<>();
 		try {
-			System.out.println(model.getAll().get(0).toString());
+			list=model.getAll();
+			
+			req.setAttribute("list", list);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		req.getRequestDispatcher("all-news.jsp").forward(req, resp);
 	}
 
 	@Override
@@ -35,7 +39,5 @@ public class MainController extends HttpServlet{
 		// TODO Auto-generated method stub
 		super.doPost(req, resp);
 	}
-	
-	
 
 }
