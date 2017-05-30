@@ -11,6 +11,7 @@ import com.google.api.client.extensions.java6.auth.oauth2.AuthorizationCodeInsta
 import com.google.api.client.extensions.jetty.auth.oauth2.LocalServerReceiver;
 import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow;
 import com.google.api.client.googleapis.auth.oauth2.GoogleClientSecrets;
+import com.google.api.client.googleapis.extensions.java6.auth.oauth2.GooglePromptReceiver;
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.json.JsonFactory;
@@ -47,12 +48,12 @@ public class InfomationService {
 	
 	public  Credential authorize() throws IOException {
 		// Load client secrets.
-		InputStream in = InfomationService.class.getResourceAsStream("/client_secret.json");
+		InputStream in = InfomationService.class.getResourceAsStream("client_secret.json");
 		GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(in));
 		// Build flow and trigger user authorization request.
 		GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(HTTP_TRANSPORT, JSON_FACTORY,
 				clientSecrets, SCOPES).setDataStoreFactory(DATA_STORE_FACTORY).setAccessType("offline").build();
-		Credential credential = new AuthorizationCodeInstalledApp(flow, new LocalServerReceiver()).authorize("donkihote2305@gmail.com");
+		Credential credential = new AuthorizationCodeInstalledApp(flow, new GooglePromptReceiver()).authorize("donkihote2305@gmail.com");
 		return credential;
 	}
 	public static void main(String[] args){

@@ -9,9 +9,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.infamous.fdsa.model.news.NewsModel;
 import com.infamous.fdsa.bean.News;
-public class ViewNewsController extends HttpServlet {
+import com.infamous.fdsa.model.news.NewsModel;
+
+public class ViewNewsByIdController  extends HttpServlet {
 
 	/**
 	 * 
@@ -21,15 +22,7 @@ public class ViewNewsController extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		NewsModel model = new NewsModel();
-		ArrayList<News> list=new ArrayList<>();
-		try {
-			list=model.getAll();
-			
-			req.setAttribute("list", list);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	
 		
 		req.getRequestDispatcher("all-news.jsp").forward(req, resp);
 	}
