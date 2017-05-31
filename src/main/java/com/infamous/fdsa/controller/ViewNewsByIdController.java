@@ -35,7 +35,7 @@ public class ViewNewsByIdController  extends HttpServlet {
 		
 		req.getRequestDispatcher("view.jsp?id="+id).forward(req, resp);
 	}
-
+	
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// TODO Auto-generated method stub

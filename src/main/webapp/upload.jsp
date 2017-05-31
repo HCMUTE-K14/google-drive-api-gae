@@ -93,7 +93,8 @@
 	</div>
 	<script type="text/javascript">
 		var message = '${requestScope.message}';
-		if (message != null) {
+		console.log(message.length);
+		if (message != null && message.length >0) {
 			$('#myModal').modal()
 		}
 	</script>

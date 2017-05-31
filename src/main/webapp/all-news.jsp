@@ -25,7 +25,7 @@
 					<tr>
 					<td><a>${row.title }</a></td>
 					<td><a>${row.id }</a></td>
-					<td><a href="@{'view?id='+${row.id}}">Link</a></td>
+					<td><a href="view?id=${row.id}">Link</a></td>
 				</tr>
 				</c:forEach>
 			</tbody>
