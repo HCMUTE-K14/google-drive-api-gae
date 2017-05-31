@@ -22,9 +22,18 @@ public class ViewNewsByIdController  extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		NewsModel model = new NewsModel();
-	
+		String id =null;
+		try {
+			id = req.getParameter("id");
+			News news = model.findNewsById(id);
+			req.setAttribute("model", news);
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		}
 		
-		req.getRequestDispatcher("all-news.jsp").forward(req, resp);
+		
+		req.getRequestDispatcher("view.jsp?id="+id).forward(req, resp);
 	}
 
 	@Override
