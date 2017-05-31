@@ -83,6 +83,10 @@ public class CreateNewsController extends HttpServlet{
 				for (FileItem item : formItems) {
 					// processes only fields that are not form fields
 					if (!item.isFormField()) {
+						if(item==null){
+							req.setAttribute("message", "Upload fail");
+							return;
+						}
 						flagUpload=serviceGoogle.uploadFile(item.getName(), item.getInputStream(), item.getContentType());
 					}else{
 						InputStream input = item.getInputStream();

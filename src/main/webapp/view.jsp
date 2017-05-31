@@ -85,7 +85,6 @@
 
 			</form>
 		</c:forEach>
-
 	</div>
 </body>
 </html>

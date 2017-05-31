@@ -92,11 +92,11 @@
 		</div>
 	</div>
 	<script type="text/javascript">
-			var message = ${requestScope.message};
-			if(message!=null){
-				$('#myModal').modal()
-			}
-		</script>
+		var message = '${requestScope.message}';
+		if (message != null) {
+			$('#myModal').modal()
+		}
+	</script>
 	<script type="text/javascript" src="js/myscript.js"></script>
 
 </body>
