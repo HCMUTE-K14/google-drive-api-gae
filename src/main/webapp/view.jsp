@@ -39,16 +39,11 @@
 
 </head>
 <body>
-	<sql:setDataSource var="con" driver="com.mysql.jdbc.Driver"
-		url="jdbc:mysql://google/db_example_springboot?cloudSqlInstance=newprojectspringboot:us-central1:springbootinstance&socketFactory=com.google.cloud.sql.mysql.SocketFactory&user=root&password=kien2509&useSSL=false
-"
-		user="root" password="kien2509" />
-	<sql:query var="result"
-		sql="select * from news where id ='${param.id}'" dataSource="${con}" />
+	
 	<jsp:include page="header.jsp"></jsp:include>
 
 	<div class="container">
-		<c:forEach var="news" items="${result.rows}">
+		<c:forEach var="news" items="${requestScope.model}">
 			<form class="form-horizontal">
 				<div class="form-group">
 					<label for="name" class="col-sm-2 control-label">Tiêu đề</label>
@@ -78,7 +73,7 @@
 								target="_blank"> <span class="btn btn-primary">
 									Download&hellip; </span>
 							</a> <input type="text" class="form-control" readonly
-								value="${#httpServletRequest.getContextPath()}__/__${news.attactlink}">
+								value="download?id=${news.id}">
 						</div>
 					</div>
 				</div>
