@@ -21,16 +21,18 @@ import com.infamous.fdsa.bean.News;
 import com.infamous.fdsa.model.news.NewsModel;
 
 public class CreateNewsController extends HttpServlet{
-	private boolean isMultipart;
-	private int maxFileSize = 50 * 1024;
-	private int maxMemSize = 4 * 1024;
+	// upload settings                                                   
+	private static final int MEMORY_THRESHOLD = 1024 * 1024 * 3; // 3MB
+	private static final int MAX_FILE_SIZE = 1024 * 1024 * 40; // 40MB
+	private static final int MAX_REQUEST_SIZE = 1024 * 1024 * 50; // 50MB
 
 	/**
 	 * 
 	 */
-	public static String DOWNLOAD_LINK = "";
+	public static String DOWNLOAD_LINK = "drive.google.com/open?id=";
 	private static final long serialVersionUID = 1L;
 	private GoogleDriveService serviceGoogle;
+	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		doPost(req,resp);
@@ -39,72 +41,77 @@ public class CreateNewsController extends HttpServlet{
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		isMultipart = ServletFileUpload.isMultipartContent((HttpServletRequest) resp);
-		String title=null;
-		String content = null;
-		String attactlink = null;
-		String flagupload = null;
-		if(!isMultipart){
-			String docType = "<!doctype html public \"-//w3c//dtd html 4.0 " +
-					"transitional//en\">\n";
-			resp.setContentType("text/html");
-			PrintWriter out = resp.getWriter();
-			out.println(docType +
-					"<html>\n" +
-					"<head><title>Can't Upload with no multipart</title></head>\n"+			      
-					"<body>Can't create news without attachment file</body>"			         
-					+ "</html>");
+		if (!ServletFileUpload.isMultipartContent(req)) {
+			// if not, we stop here
+			PrintWriter writer = resp.getWriter();
+			writer.println("Error: Form must has enctype=multipart/form-data.");
+			writer.flush();
+			return;
 		}
-		NewsModel model=new NewsModel();
+
+		// configures upload settings
 		DiskFileItemFactory factory = new DiskFileItemFactory();
-		factory.setSizeThreshold(maxMemSize);
-		factory.setRepository(new File("c:\\temp"));
+		// sets memory threshold - beyond which files are stored in disk
+		factory.setSizeThreshold(MEMORY_THRESHOLD);
+		// sets temporary location to store files
+		factory.setRepository(new File(System.getProperty("java.io.tmpdir")));
+
 		ServletFileUpload upload = new ServletFileUpload(factory);
-		upload.setSizeMax( maxFileSize );
+
+		// sets maximum size of upload file
+		upload.setFileSizeMax(MAX_FILE_SIZE);
+
+		// sets maximum size of request (include file + form data)
+		upload.setSizeMax(MAX_REQUEST_SIZE);
+
+	
+		String flagUpload = "";
+		String title="";
+		String content="";
+		String attactLink="";
+		serviceGoogle=new GoogleDriveService();
+		NewsModel model=new NewsModel();
+		
 		try {
-			List fileItems = null;
-			try {
-				fileItems = upload.parseRequest(req);
-			} catch (FileUploadException e) {			
-				System.out.println("FileUploadException cause this exception search google for more information"+e.getMessage());
-			}
+			// parses the request's content to extract file data
+			@SuppressWarnings("unchecked")
+			List<FileItem> formItems = upload.parseRequest(req);
+			System.out.println(formItems.size());
+			System.out.println(formItems.size());
+			if (formItems != null && formItems.size() > 0) {
+				// iterates over form's fields
+				for (FileItem item : formItems) {
+					// processes only fields that are not form fields
+					if (!item.isFormField()) {
+						flagUpload=serviceGoogle.uploadFile(item.getName(), item.getInputStream(), item.getContentType());
+					}else{
+						InputStream input = item.getInputStream();
+						if(item.getFieldName().equals("title")){
+							byte[] str = new byte[input.available()];
+							input.read(str);
+							title = new String(str,"UTF8");
 
-			// Process the uploaded file items
-			Iterator i = fileItems.iterator();
-			while ( i.hasNext () ) {
-				FileItem fi = (FileItem)i.next();
-				if ( !fi.isFormField () )	
-				{			
-					String fileName = fi.getName();
-					String contentType = fi.getContentType();				
-					flagupload = serviceGoogle.uploadFile(fileName, fi.getInputStream(),contentType);					
-				}else{
-					InputStream input = fi.getInputStream();
-					if(fi.getFieldName().equals("title")){
-						byte[] str = new byte[input.available()];
-						input.read(str);
-						title = new String(str,"UTF8");
+						}
+						if(item.getFieldName().equals("content")){
+							byte[] str = new byte[input.available()];
+							input.read(str);
+							content = new String(str,"UTF8");
+						}
 
 					}
-					if(fi.getFieldName().equals("content")){
-						byte[] str = new byte[input.available()];
-						input.read(str);
-						content = new String(str,"UTF8");
-					}
-
 				}
 			}
-				
-			if (flagupload != null) {
-				attactlink=DOWNLOAD_LINK + flagupload;
+			if(flagUpload!=null){
+				String id = UUID.randomUUID().toString();
+				model.addNews(new News(id,title,content,DOWNLOAD_LINK+flagUpload));
+				req.setAttribute("message", "Upload successful");
+			}else{
+				req.setAttribute("message", "Upload fail");
 			}
-			String id = UUID.randomUUID().toString();
-			model.addNews(new News(id,title,content,attactlink));
 			req.getRequestDispatcher("upload.jsp").forward(req, resp);
-		} catch (SQLException e) {			
-			System.out.println("Exception "+e.getMessage());
+		} catch (Exception ex) {
+		
 		}
-
 	}
 
 

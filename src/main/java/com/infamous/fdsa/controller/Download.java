@@ -1,34 +1,24 @@
 package com.infamous.fdsa.controller;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.infamous.fdsa.bean.InformationFile;
-import com.infamous.fdsa.model.news.NewsModel;
-import com.infamous.fdsa.service.GoogleDriveService;
-
-public class ViewAllFileUploadController  extends HttpServlet {
+public class Download extends HttpServlet{
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	GoogleDriveService service;
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		NewsModel model = new NewsModel();
-		List<InformationFile> list=new ArrayList<>();
-		service=new GoogleDriveService();
-		list=service.getAllFile();
-		req.setAttribute("list", list);
-		req.getRequestDispatcher("all-file.jsp").forward(req, resp);
+			String id=(String)req.getParameter("id");
+			
+			resp.sendRedirect("https://drive.google.com/open?id="+id);
 	}
 
 	@Override

@@ -120,6 +120,7 @@ public class GoogleDriveService {
 					infor.setTitle(file.getName());
 					infor.setId(file.getId());
 					infor.setType(file.getKind());
+					infor.setLinkDownload("drive.google.com/open?id="+file.getId());
 
 					list.add(infor);
 				}

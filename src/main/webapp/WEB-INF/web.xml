@@ -1,47 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
-<web-app xmlns="http://java.sun.com/xml/ns/javaee"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
-         version="2.5">
-  <servlet>
-    <servlet-name>ViewAllNews</servlet-name>
-    <servlet-class>com.infamous.fdsa.controller.ViewAllNewsController</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>ViewAllNews</servlet-name>
-    <url-pattern>/all-news</url-pattern>
-  </servlet-mapping>
-  
-   <servlet>
-    <servlet-name>ViewNewsByID</servlet-name>
-    <servlet-class>com.infamous.fdsa.controller.ViewNewsByIdController</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>ViewNewsByID</servlet-name>
-    <url-pattern>/view-news</url-pattern>
-  </servlet-mapping>
-  
-   <servlet>
-    <servlet-name>CreateNews</servlet-name>
-    <servlet-class>com.infamous.fdsa.controller.CreateNewsController</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>CreateNews</servlet-name>
-    <url-pattern>/upload</url-pattern>
-  </servlet-mapping>
-  
-  
-   <servlet>
-    <servlet-name>ViewAllFileUpload</servlet-name>
-    <servlet-class>com.infamous.fdsa.controller.ViewAllFileUploadController</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>ViewAllFileUpload</servlet-name>
-    <url-pattern>/all-file</url-pattern>
-  </servlet-mapping>
-  
-  
-  <welcome-file-list>
-    <welcome-file>index.jsp</welcome-file>
-  </welcome-file-list>
+<web-app xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	version="2.5">
+	<servlet>
+		<servlet-name>ViewAllNews</servlet-name>
+		<servlet-class>com.infamous.fdsa.controller.ViewAllNewsController</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ViewAllNews</servlet-name>
+		<url-pattern>/all-news</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>ViewNewsByID</servlet-name>
+		<servlet-class>com.infamous.fdsa.controller.ViewNewsByIdController</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ViewNewsByID</servlet-name>
+		<url-pattern>/view-news</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>CreateNews</servlet-name>
+		<servlet-class>com.infamous.fdsa.controller.CreateNewsController</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>CreateNews</servlet-name>
+		<url-pattern>/upload</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>Download</servlet-name>
+		<servlet-class>com.infamous.fdsa.controller.Download</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Download</servlet-name>
+		<url-pattern>/download</url-pattern>
+	</servlet-mapping>
+
+
+	<servlet>
+		<servlet-name>ViewAllFileUpload</servlet-name>
+		<servlet-class>com.infamous.fdsa.controller.ViewAllFileUploadController</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ViewAllFileUpload</servlet-name>
+		<url-pattern>/all-file</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>PageCreateNews</servlet-name>
+		<jsp-file>/upload.jsp</jsp-file>
+	</servlet>
+	<!--mapping -->
+	<servlet-mapping>
+		<servlet-name>PageCreateNews</servlet-name>
+		<url-pattern>/upload-news</url-pattern>
+	</servlet-mapping>
+
+
+	<welcome-file-list>
+		<welcome-file>index.jsp</welcome-file>
+	</welcome-file-list>
 </web-app>

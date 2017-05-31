@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import com.infamous.fdsa.bean.News;
 import com.infamous.fdsa.dao.news.NewsDao;
 import com.infamous.fdsa.dao.news.NewsDaoImp;
+import com.mysql.jdbc.PreparedStatement;
 
 public class NewsModel {
 
@@ -17,8 +18,7 @@ public class NewsModel {
 	}
 
 	public int addNews(News model) throws SQLException {
-		return 0;
-
+		return dao.addNews(model);
 	}
 
 	public News findNewsById(String id) throws SQLException {

@@ -40,7 +40,7 @@
 	<jsp:include page="header.jsp"></jsp:include>
 	<div class="container">
 
-		<form class="form-horizontal" method="post" action="upload-news"
+		<form class="form-horizontal" method="post" action="upload"
 			enctype="multipart/form-data">
 			<div class="form-group">
 				<label for="name" class="col-sm-2 control-label">Tiêu đề</label>
@@ -83,7 +83,7 @@
 			<!-- Modal content-->
 			<div class="modal-content">
 				<div class="modal-body">
-					<span>${message}</span>
+					<span>${requestScope.message}</span>
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -92,7 +92,7 @@
 		</div>
 	</div>
 	<script type="text/javascript">
-			var message = [[${message}]];
+			var message = ${requestScope.message};
 			if(message!=null){
 				$('#myModal').modal()
 			}

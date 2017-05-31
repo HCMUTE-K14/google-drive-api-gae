@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jstl/core"%>
-<%@ taglib prefix="sql" uri="http://java.sun.com/jstl/sql"%>
+<%@ taglib uri='http://java.sun.com/jsp/jstl/core' prefix='c'%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -11,11 +10,7 @@
 <link href="css/bootstrap.min.css" rel="stylesheet" />
 </head>
 <body>
-	<sql:setDataSource var="con" driver="com.mysql.jdbc.Driver"
-		url="jdbc:mysql://google/db_example_springboot?cloudSqlInstance=newprojectspringboot:us-central1:springbootinstance&socketFactory=com.google.cloud.sql.mysql.SocketFactory&user=root&password=kien2509&useSSL=false
-"
-		user="root" password="kien2509" />
-	<sql:query var="result" sql="select * from news" dataSource="${con}" />
+	
 	<jsp:include page="header.jsp" ></jsp:include>
 	<div>
 		<table class="table table-striped">
@@ -26,10 +21,10 @@
 				</tr>
 			</thead>
 			<tbody>
-				<c:forEach var="row" items="${result.rows }">
+				<c:forEach var="row" items="${requestScope.list}">
 					<tr>
 						<td><a>${row.title }</a></td>
-						<td><a href="${row.attactlink}">Link</a></td>
+						<td><a href="download?id=${row.id}">Link</a></td>
 					</tr>
 				</c:forEach>
 
